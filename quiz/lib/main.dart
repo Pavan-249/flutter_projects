@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-//import 'package:rflutter_alert/rflutter_alert.dart';
+import 'question.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+Question_paper qp = Question_paper();
 
 void main() {
   return runApp(quizApp());
@@ -13,40 +16,31 @@ class quizApp extends StatefulWidget {
 class _quizAppState extends State<quizApp> {
   int dare = 0;
   int counter = 0;
-  List ver = [
+
+  List<Widget> ver = [
     Icon(
       Icons.ac_unit,
       color: Colors.blue,
     ),
   ];
-  List ans = [
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    false,
-    false,
-    true,
-    false,
-    true,
-    true,
+
+  List<Widget> ckr = [
+    Center(
+      child: Text(
+        'You are all done',
+        style: TextStyle(
+            fontSize: 30, color: Colors.black, backgroundColor: Colors.blue),
+      ),
+    )
   ];
-  List qns = [
-    "He was a skipper of NZ",
-    "He plays for SRH ",
-    "He is Mr.360",
-    "He is a good fielder",
-    "He is from Ireland",
-    "He is from NewZealand",
-    "He can swing the ball",
-    "He is from South Africa",
-    "He is a Left arm batsman",
-    "He is a left arm seamer",
-    "He had bowled a Super-Over",
-    ""
-  ];
+
+  void alterr(BuildContext contex) {
+    if (dare == 11) {
+      print(dare);
+      Alert(context: contex, desc: 'fluuter', title: 'hey');
+    }
+  }
+
   List<Icon> lr = [
     Icon(
       Icons.check,
@@ -63,18 +57,28 @@ class _quizAppState extends State<quizApp> {
   ];
   @override
   Widget build(BuildContext context) {
+    List checker() {
+      if (dare < 11) {
+        return ver;
+      } else {
+        alterr(context);
+        return ckr;
+        //return ckr;
+      }
+    }
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(
             brightness: Brightness.dark,
             title: Text(
-              '✺QUIZAPP✺',
-              style: TextStyle(color: Colors.redAccent[400], fontSize: 47),
+              '✺✺ QUIZAPP ✺✺',
+              style: TextStyle(color: Colors.redAccent[400], fontSize: 45),
             ),
             backgroundColor: Colors.amber[400],
           ),
-          backgroundColor: Colors.black54,
+          backgroundColor: Colors.black87,
           body: Container(
               alignment: AlignmentDirectional.topStart,
               child: Column(
@@ -97,7 +101,7 @@ class _quizAppState extends State<quizApp> {
                   ),
                   Container(
                     child: Text(
-                      qns[dare],
+                      qp.qns[dare],
                       style: TextStyle(
                           color: Colors.lightBlue[600],
                           fontSize: 40,
@@ -117,12 +121,11 @@ class _quizAppState extends State<quizApp> {
                         FlatButton(
                           splashColor: Colors.amber,
                           onPressed: () {
-                            //print("$dare");
                             setState(() {
-                              bool b = ans[dare];
+                              alterr(context);
+                              bool b = qp.ans[dare];
                               if (b == true) {
                                 ver.add(lr[0]);
-
                                 if (dare < 11) {
                                   dare++;
                                   counter++;
@@ -145,7 +148,8 @@ class _quizAppState extends State<quizApp> {
                           splashColor: Colors.amber,
                           onPressed: () {
                             setState(() {
-                              bool b = ans[dare];
+                              alterr(context);
+                              bool b = qp.ans[dare];
                               if (b == false) {
                                 ver.add(lr[0]);
 
@@ -168,7 +172,6 @@ class _quizAppState extends State<quizApp> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            ver[dare],
                             Column(
                               children: [
                                 Text(
@@ -178,9 +181,16 @@ class _quizAppState extends State<quizApp> {
                                       fontSize: 30,
                                       fontWeight: FontWeight.w900,
                                       backgroundColor: Colors.amber[400]),
-                                )
+                                ),
                               ],
-                            )
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: checker(),
+                            ),
                           ],
                         )
                       ],
