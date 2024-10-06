@@ -1,6 +1,6 @@
 # WeaMate
 
-A new Flutter project.
+This project was done with an interest to explore app development during the pandemic.
 
 ## Getting Started
 
